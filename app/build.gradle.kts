@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.movie_app"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 31
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -56,6 +56,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)

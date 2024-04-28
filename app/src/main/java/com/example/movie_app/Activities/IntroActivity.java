@@ -1,4 +1,4 @@
-package com.example.movie_app;
+package com.example.movie_app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.movie_app.R;
 
 public class IntroActivity extends AppCompatActivity {
 
