@@ -33,8 +33,10 @@ private Button loginBtn;
         loginBtn.setOnClickListener(v ->  {
                 if (userEdt.getText().toString().isEmpty() || passEdt.getText().toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this,"Please Fill your user and password",Toast.LENGTH_SHORT).show();
+
                 }else if(userEdt.getText().toString().equals("test") && passEdt.getText().toString().equals("test")){
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
                 }else {
                     Toast.makeText(LoginActivity.this,"Username and Password Incorrect", Toast.LENGTH_SHORT).show();
                 }
