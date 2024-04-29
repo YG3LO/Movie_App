@@ -3,6 +3,7 @@ package com.example.movie_app.Activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -10,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.example.movie_app.Adapters.SliderAdapters;
 import com.example.movie_app.Domian.SliderItems;
 import com.example.movie_app.R;
@@ -23,8 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-private ViewPager2 viewPager2;
-private Handler slideHandler = new Handler();
+    private RecyclerView.Adapter adapterBestMovies,AdapterUpComming,adapterCategory;
+    private RecyclerView recyclerViewBestMovies,recycleviewUpcoming,recyclerViewCategory;
+    private RequestQueue mReqeustQueue;
+    private StringRequest mStringRequest,mStringRequest2,mStringRequest3;
+    private ProgressBar loading1,loading2,loading3;
+    private ViewPager2 viewPager2;
+    private Handler slideHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,5 +101,15 @@ private Handler slideHandler = new Handler();
 
     private void initView() {
         viewPager2=findViewById(R.id.viewpagerSlider);
+        recyclerViewBestMovies=findViewById(R.id.view1);
+        recyclerViewBestMovies.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recycleviewUpcoming=findViewById(R.id.view2);
+        recycleviewUpcoming.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewCategory=findViewById(R.id.view3);
+        recyclerViewCategory.setLayoutManager((new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)));
+        loading1=findViewById(R.id.progressBar1);
+        loading2=findViewById(R.id.progressBar2);
+        loading3=findViewById(R.id.progressBar3);
+
     }
 }
