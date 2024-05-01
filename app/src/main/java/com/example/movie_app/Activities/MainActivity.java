@@ -2,26 +2,29 @@ package com.example.movie_app.Activities;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.movie_app.Adapters.FilmListAdapter;
 import com.example.movie_app.Adapters.SliderAdapters;
-import com.example.movie_app.Domian.SliderItems;
+import com.example.movie_app.Domain.ListFilm;
+import com.example.movie_app.Domain.SliderItems;
 import com.example.movie_app.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +44,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-        banner();
+        banners();
+        sendRequest();
+
 
     }
 
-    private void banner() {      //Scroll
+    private void sendRequest() {
+        mReqeustQueue= Volley.newRequestQueue(this);
+        loading1.setVisibility(View.VISIBLE);
+        mStringRequest=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
+            Gson gson=new Gson();
+            loading1.setVisibility(View.GONE);
+            ListFilm items=gson.fromJson(response.ListFilm.class);
+            adapterBestMovies=new FilmListAdapter(items);
+            recyclerViewBestMovies.setAdapter(adapterBestMovies);
+
+        }, error -> {
+              loading1.setVisibility(View.GONE);
+              Log.i("Uilover","onErrorResponse:"+error.toString());
+        });
+        mReqeustQueue.add(mStringRequest);
+    }
+
+
+    private void banners() {      //Scroll
         List<SliderItems> sliderItems=new ArrayList<>();
         sliderItems.add(new SliderItems(R.drawable.wide));
         sliderItems.add(new SliderItems(R.drawable.wide1));
