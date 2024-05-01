@@ -1,12 +1,14 @@
 package com.example.movie_app.Activities;
 
+import static java.lang.Character.getType;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,18 +21,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.movie_app.Adapters.CategoryListAdapter;
 import com.example.movie_app.Adapters.FilmListAdapter;
 import com.example.movie_app.Adapters.SliderAdapters;
+import com.example.movie_app.Domain.GenresItem;
 import com.example.movie_app.Domain.ListFilm;
 import com.example.movie_app.Domain.SliderItems;
 import com.example.movie_app.R;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView.Adapter adapterBestMovies,AdapterUpComming,adapterCategory;
+    private RecyclerView.Adapter adapterBestMovies,AdapterUpComing,adapterCategory;
     private RecyclerView recyclerViewBestMovies,recycleviewUpcoming,recyclerViewCategory;
     private RequestQueue mReqeustQueue;
     private StringRequest mStringRequest,mStringRequest2,mStringRequest3;
@@ -40,23 +45,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         initView();
         banners();
-        sendRequest();
-
+        sendRequestBestMovies();
+        sendRequestUpComing();
+        sendRequestCategory();
 
     }
-
-    private void sendRequest() {
+    private void sendRequestBestMovies() {
         mReqeustQueue= Volley.newRequestQueue(this);
         loading1.setVisibility(View.VISIBLE);
         mStringRequest=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
             Gson gson=new Gson();
             loading1.setVisibility(View.GONE);
-            ListFilm items=gson.fromJson(response.ListFilm.class);
+            ListFilm items=gson.fromJson(response, ListFilm.class);
             adapterBestMovies=new FilmListAdapter(items);
             recyclerViewBestMovies.setAdapter(adapterBestMovies);
 
@@ -66,7 +70,39 @@ public class MainActivity extends AppCompatActivity {
         });
         mReqeustQueue.add(mStringRequest);
     }
+    private void sendRequestUpComing() {
+        mReqeustQueue= Volley.newRequestQueue(this);
+        loading3.setVisibility(View.VISIBLE);
+        mStringRequest3=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=2", response -> {
+            Gson gson=new Gson();
+            loading3.setVisibility(View.GONE);
+            ListFilm items=gson.fromJson(response, ListFilm.class);
+            AdapterUpComing=new FilmListAdapter(items);
+            recycleviewUpcoming.setAdapter(AdapterUpComing);
 
+        }, error -> {
+            loading3.setVisibility(View.GONE);
+            Log.i("Uilover","onErrorResponse:"+error.toString());
+        });
+        mReqeustQueue.add(mStringRequest3);
+    }
+    private void sendRequestCategory() {
+        mReqeustQueue= Volley.newRequestQueue(this);
+        loading2.setVisibility(View.VISIBLE);
+        mStringRequest2=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/genres", response -> {
+            Gson gson=new Gson();
+            loading2.setVisibility(View.GONE);
+            ArrayList<GenresItem> catList=gson.fromJson(response,new TypeToken<ArrayList<GenresItem>>(){
+            }.getType());
+            adapterCategory=new CategoryListAdapter(catList);
+            recyclerViewCategory.setAdapter(adapterCategory);
+
+        }, error -> {
+            loading2.setVisibility(View.GONE);
+            Log.i("Uilover","onErrorResponse:"+error.toString());
+        });
+        mReqeustQueue.add(mStringRequest2);
+    }
 
     private void banners() {      //Scroll
         List<SliderItems> sliderItems=new ArrayList<>();
@@ -126,9 +162,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager2=findViewById(R.id.viewpagerSlider);
         recyclerViewBestMovies=findViewById(R.id.view1);
         recyclerViewBestMovies.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        recycleviewUpcoming=findViewById(R.id.view2);
+        recycleviewUpcoming=findViewById(R.id.view3);
         recycleviewUpcoming.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewCategory=findViewById(R.id.view3);
+        recyclerViewCategory=findViewById(R.id.view2);
         recyclerViewCategory.setLayoutManager((new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)));
         loading1=findViewById(R.id.progressBar1);
         loading2=findViewById(R.id.progressBar2);

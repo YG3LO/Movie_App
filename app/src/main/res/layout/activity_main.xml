@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".Activities.IntroActivity">
 
     <ScrollView
@@ -26,6 +28,7 @@
                 android:background="@drawable/edittext_background"
                 android:drawableStart="@drawable/search"
                 android:drawableEnd="@drawable/microphone"
+                android:textColor="@color/white"
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="Search Movies..."
@@ -94,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="4dp"
                 android:text="Category"
                 android:textColor="@color/yellow"
                 android:textSize="18sp"
@@ -132,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:text="Upcoming Movies"
                 android:textColor="@color/yellow"
@@ -145,8 +148,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/view3"
-                    android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
