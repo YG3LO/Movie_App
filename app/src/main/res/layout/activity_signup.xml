@@ -2,13 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@color/main_color"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
-    tools:context=".Activities.LoginActivity">
+    android:orientation="vertical"
+    android:background="@color/main_color"
+    tools:context=".Activities.SignupActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,7 +21,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log in"
+                android:text="Sign Up"
                 android:textSize="50sp"
                 android:textColor="@color/white"
                 android:layout_marginTop="128dp"
@@ -31,7 +29,7 @@
                 android:textStyle="bold"/>
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/signup_username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="UserName"
@@ -46,7 +44,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Password"
@@ -60,49 +58,49 @@
                 android:layout_marginEnd="32dp"
                 android:inputType="textPassword" />
 
-            <TextView
-                android:id="@+id/textView2"
+            <EditText
+                android:id="@+id/signup_confirm"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Forget you Password"
+                android:layout_height="50dp"
+                android:hint="Confirm your Password"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="16dp"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/loginBtn"
-                style="@android:style/Widget.Button"
-                android:layout_marginTop="64dp"
+                android:textColorHint="@color/white"
+                android:ems="10"
+                android:background="@drawable/edittext_background"
+                android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
+                android:inputType="textPassword" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_button"
+                style="@android:style/Widget.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="32dp"
                 android:background="@drawable/orange_button_background"
+                android:text="SIGN UP"
+                android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don`t have an account"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:layout_marginTop="32dp"/>
+                android:id="@+id/loginRedirectText"
+                android:text="Already an user? Login"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/signupRedirectText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Register Now"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAlignment="center" />
+
+
 
         </LinearLayout>
     </ScrollView>
