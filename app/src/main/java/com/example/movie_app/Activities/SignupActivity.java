@@ -1,5 +1,6 @@
 package com.example.movie_app.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.movie_app.R;
+import com.example.movie_app.databinding.ActivitySignupBinding;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -23,15 +25,46 @@ public class SignupActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
 
         binding.signupButton.setOnClickListener(new View.OnClickListener(){
-          @Override
+            @Override
             public void onClick(View view) {
-              String username = binding.signupUsername.getText().toString();
-              String password = binding.signupPassword.getText().toString();
-              String confirmPassword = binding.signupConfirm.getText().toString();
+                String username = binding.signupUsername.getText().toString();
+                String password = binding.signupPassword.getText().toString();
+                String confirmPassword = binding.signupConfirm.getText().toString();
 
-              if (username.equals("")) || password.equals("")) || confirmPassword.equals(""))
-              Toast make.Text(SignupActivity.this, Tost)
-          }
+                if (username.equals("") || password.equals("") || confirmPassword.equals(""))
+                    Toast.makeText(SignupActivity.this, "All fields are mandatory",Toast.LENGTH_SHORT).show();
+                else {
+                    if (password.equals(confirmPassword)){
+                        Boolean checkUserUsername = databaseHelper.checkUsername(username);
+
+                        if(checkUserUsername == false){
+                            Boolean insert = databaseHelper.insertData(username, password);
+
+                            if(insert == true){
+                                Toast.makeText(SignupActivity.this, "Signup Successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(SignupActivity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(SignupActivity.this, "User already exists, Please Login", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(SignupActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        });
+
+        binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+
+            }
         });
 
 

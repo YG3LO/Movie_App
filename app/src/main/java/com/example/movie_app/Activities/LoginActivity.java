@@ -2,6 +2,7 @@ package com.example.movie_app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -9,36 +10,53 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.movie_app.R;
+import com.example.movie_app.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
-private EditText userEdt, passEdt;
-private Button loginBtn;
+
+
+    ActivityLoginBinding binding;
+    DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        initView();
-    }
+        databaseHelper = new DatabaseHelper(this);
 
-    private void initView()  {
-        userEdt = findViewById(R.id.editTextText);
-        passEdt = findViewById(R.id.editTextPassword);
-        loginBtn = findViewById(R.id.loginBtn);
 
-        loginBtn.setOnClickListener(v ->  {
-                if (userEdt.getText().toString().isEmpty() || passEdt.getText().toString().isEmpty()) {
-                    Toast.makeText(LoginActivity.this,"Please Fill your user and password",Toast.LENGTH_SHORT).show();
+        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = binding.loginUsername.getText().toString();
+                String password = binding.loginPassword.getText().toString();
 
-                }else if(userEdt.getText().toString().equals("test") && passEdt.getText().toString().equals("test")){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                if (username.equals("") || password.equals(""))
+                    Toast.makeText(LoginActivity.this, "All fields are mandatory",Toast.LENGTH_SHORT).show();
+                else{
+                    Boolean checkCredentials = databaseHelper.checkUsernamePassword(username, password);
 
-                }else {
-                    Toast.makeText(LoginActivity.this,"Username and Password Incorrect", Toast.LENGTH_SHORT).show();
+                    if(checkCredentials == true){
+                        Toast.makeText(LoginActivity.this, "Login Successfully",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Invalid Credentials",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
+            }
 
+        });
+        binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
